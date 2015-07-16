@@ -197,4 +197,4 @@ This can be automatically added to pull requests by committing with:
 
 Copyright 2015 Oscar Salvador Magallanes 
 
-tePLSQL is under MIT license. 
+tapiGen2 is under MIT license. 
