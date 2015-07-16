@@ -162,15 +162,17 @@ PROCEDURE create_tapi_package (p_table_name               IN VARCHAR2
 Create PL/SQL Table API
 
 #### IN Paramters
-  | Name | Type | Description
-  | -- | -- | --    
-  |p_table_name | VARCHAR2 | must be NOT NULL
-  |p_compile_table_api | BOOLEAN | TRUE for compile generated package, FALSE to DBMS_OUTPUT the source
-  |p_unique_key | VARCHAR2 | If the table has no primary key, it indicates the column that will be used as a unique key
-  |p_created_by_col_name | VARCHAR2 | Custom audit column
-  |p_created_date_col_name | VARCHAR2 | Custom audit column
-  |p_modified_by_col_name | VARCHAR2 | Custom audit column
-  |p_modified_date_col_name | VARCHAR2 | Custom audit column     
+
+| Name | Type | Description
+|------|------|------------
+| p_table_name | VARCHAR2 | must be NOT NULL
+| p_compile_table_api | BOOLEAN | TRUE for compile generated package, FALSE to DBMS_OUTPUT the source
+| p_unique_key | VARCHAR2 | If the table has no primary key, it indicates the column that will be used as a unique key
+| p_created_by_col_name | VARCHAR2 | Custom audit column
+| p_created_date_col_name | VARCHAR2 | Custom audit column
+| p_modified_by_col_name | VARCHAR2 | Custom audit column
+| p_modified_date_col_name | VARCHAR2 | Custom audit column
+
 
 #### Amendments
 
