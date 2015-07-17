@@ -3,6 +3,8 @@ PL/SQL Table API Generator for Oracle
 
 tapiGen2 is the continuation of the Open Source proyect created by Daniel McGhan in 2008, [tapiGen](http://sourceforge.net/projects/tapigen/). It aims to automate the creation of PLSQL TABLE APIs.
 
+A table API is a data access layer that provides the basic CRUD operations for a single table. The key principle is to avoid repetition of SQL statements, and consequently to make it easier to optimize, maintain and enhance those statements. For this reason, a data access layer is critical. Some of us build apps that perform DML on individual tables, and so we find TAPIs useful. 
+
 Let's start by taking a look a single row fetch by id - a very common operation. 
 
 This would typically consume 4 lines of code:
