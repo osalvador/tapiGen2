@@ -43,7 +43,7 @@ Also it includes:
 
   - The restriction that the primary key was a single column is deleted. Now the primary key can be 0 to N columns. if the table has no primary key, parameter `unique_key` must be not null.   
   - The `tt` PIPELINED function is added, which returns an array of records and standardizes access to the table using the API without losing the power to make queries directly.
-  - DML operations through the rowid are added, which facilitates their use to API clients. `upd_rowid`, `web_upd_rowid`, `del_rowid` y `web_del_rowid` 
+  - DML operations through the rowid are added, which facilitates their use to API clients. `upd_rowid`, `web_upd_rowid`, `del_rowid` and `web_del_rowid` 
   - Audit columns are received as parameter and are not mandatory.
   - Resitrcción that the table has a sequence is deleted, but if there have to modify the generated code to add `nextval()`, in construction. 
   - SHA1 is used instead of MD5 hash, in Oracle 12c we will use SHA256.
@@ -132,7 +132,7 @@ columns: created_by, created_date, modified_by, and modified_date.
 columns: modified_by, and modified_date.
 6. ``web_upd`` (p) - Updates a row in the table. Performs an optimistic locking 
 check prior to performing the update. Automaticaly updates the audit
-columns: modified_by, and modified_date - ApEx compatible.
+columns: modified_by, and modified_date.
 7. ``del`` (p) - Deletes a row from the table.
 8. ``web_del`` (p) - Deletes a row from the table. Performs an optimistic locking check prior to performing the update.
 9. ``hash`` (f) - Returns an SHA1 hash of a row in the table.
@@ -150,12 +150,12 @@ columns: modified_by, and modified_date - ApEx compatible.
 
 ```plsql
 PROCEDURE create_tapi_package (p_table_name               IN VARCHAR2
-                                , p_compile_table_api        IN BOOLEAN DEFAULT TRUE
-                                , p_unique_key               IN VARCHAR2 DEFAULT NULL
-                                , p_created_by_col_name      IN VARCHAR2 DEFAULT NULL
-                                , p_created_date_col_name    IN VARCHAR2 DEFAULT NULL
-                                , p_modified_by_col_name     IN VARCHAR2 DEFAULT NULL
-                                , p_modified_date_col_name   IN VARCHAR2 DEFAULT NULL);
+                               , p_compile_table_api        IN BOOLEAN DEFAULT TRUE
+                               , p_unique_key               IN VARCHAR2 DEFAULT NULL
+                               , p_created_by_col_name      IN VARCHAR2 DEFAULT NULL
+                               , p_created_date_col_name    IN VARCHAR2 DEFAULT NULL
+                               , p_modified_by_col_name     IN VARCHAR2 DEFAULT NULL
+                               , p_modified_date_col_name   IN VARCHAR2 DEFAULT NULL);
 ```
 
 #### Description:
