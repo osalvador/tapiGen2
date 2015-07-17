@@ -1,13 +1,13 @@
 # tapiGen2
 PL/SQL Table API Generator for Oracle
 
-tapiGen2 is the continuation of the Open Source proyect created by Daniel McGhan in 2008, [tapiGen](http://sourceforge.net/projects/tapigen/). It aims to automate the creation of PLSQL TABLE APIs.
+tapiGen2 is the continuation of the Open Source project created by Daniel McGhan in 2008, [tapiGen](http://sourceforge.net/projects/tapigen/). It aims to automate the creation of PLSQL TABLE APIs.
 
-A table API is a data access layer that provides the basic CRUD operations for a single table. The key principle is to avoid repetition of SQL statements, and consequently to make it easier to optimize, maintain and enhance those statements. For this reason, a data access layer is critical. Some of us build apps that perform DML on individual tables, and so we find TAPIs useful. 
+A table API, is a data access layer that provides the basic CRUD operations for a single table. The key principle, is to avoid repetition of SQL statements and consequently make it easier to optimize, maintain and enhance those statements. For this reason, a data access layer is critical. Some of us build apps that perform DML on individual tables, and so we find TAPIs useful. 
 
-Let's start by taking a look a single row fetch by id - a very common operation. 
+Let's start by taking a look at a single row fetch, using its id - a very common operation. 
 
-This would typically consume 4 lines of code:
+This would be typically done in 4 lines of code:
 ```sql   
 SELECT *
 INTO l_table_rec
@@ -15,11 +15,11 @@ FROM table_name
 WHERE id = l_var_with_id;
 ```
 
-Although its easy enough to write there are a few problems with this approach. 
+Although its easy enough to write, there are few problems with this approach. 
 
 1. This implicit cursor introduces a possible NO_DATA_FOUND exception that should be handled - that means more code. Explicit cursors would also require more code.
-2. Each statement written like this must be maintained. If the table name is changed then all of the statements must be updated.
-3. If any statements written for this purpose are not written exactly the same, Oracle may take a little longer to execute the query.
+2. Each statement written like this, must be maintained, hence, if the table name is changed then all the statements must be updated.
+3. If any of the statements written for this purpose, are not written exactly in the same way, Oracle may take a little longer to execute them.
          
 The RT function in tapiGen was created for this very purpose and is used as 
 follows:
@@ -36,20 +36,20 @@ for subsequent calls.
 
 ## What's New in tapiGen2
 
-tapiGen2 has been rewritten to complete, but based on the same philosophy as its predecessor. tapiGen2 uses the template engine [tePLSQL](https://github.com/osalvador/tePLSQL) that simplifying the creation of code and allows it to be easily customizable.
+tapiGen2 has been rewritten to complete, but based on the same philosophy as its predecessor. tapiGen2 uses the template engine [tePLSQL](https://github.com/osalvador/tePLSQL) that simplifies the creation of code and allows it to be easily customizable.
 
 It also adds new features to the generated API, and some of them are modified. 
-I decided to eliminate the management of exceptions raised by Daniel McGhan because I believe that exception handling is very personal and depends on the architecture chosen for each project 
+I decided to eliminate the management of exceptions raised by Daniel McGhan, because I believe that exception handling is very personal and depends on the architecture chosen for each project 
 
 Also it includes:
 
-  - The restriction that the primary key was a single column is deleted. Now the primary key can be 0 to N columns. if the table has no primary key, parameter `unique_key` must be not null.   
-  - The `tt` PIPELINED function is added, which returns an array of records and standardizes access to the table using the API without losing the power to make queries directly.
-  - DML operations through the rowid are added, which facilitates their use to API clients. `upd_rowid`, `web_upd_rowid`, `del_rowid` and `web_del_rowid` 
-  - Audit columns are received as parameter and are not mandatory.
-  - Resitrcción that the table has a sequence is deleted, but if there have to modify the generated code to add `nextval()`, in construction. 
+  - Single column primary key restriction has been deleted. Now the primary key can contain from 0 to N columns. If the table has no primary key, parameter `unique_key` must be not null.   
+  - The `tt` PIPELINED function has been implemented. This, returns an array of records and standardizes access to the tables, without losing the ability to make queries directly.
+  - DML operations, based on the rowid, have been created to facilitate their use by API clients. `upd_rowid`, `web_upd_rowid`, `del_rowid` and `web_del_rowid` 
+  - Audit columns will be injected as parameters and won't be mandatory.
+  - Tables won't require a sequence restriction. In case that the used table has one, the code will have to be modified to add the `nextval()` statement. Under construction. 
   - SHA1 is used instead of MD5 hash, in Oracle 12c we will use SHA256.
-  - The `put_apex_form_code` procedure is removed.
+  - The `put_apex_form_code` procedure has been removed.
 
 ## Getting started
 
@@ -61,7 +61,7 @@ Download and compile
 - tePLSQL.pkb
 - TAPI_GEN2.pkb
 
-Execute on `DBMS_CRYPTO` grant are necesary. 
+Execute on `DBMS_CRYPTO` grant are necessary. 
 
 ### Usage
 
@@ -127,13 +127,13 @@ each package that tapiGen creates: *(f) = function and (p) = procedure
 2. ``rt_for_update`` (f) - Returns a record from the table and places a row level
 lock on it.
 3. ``tt`` (f) - Returns record Table as PIPELINED Function. 
-Pipelining negates the need to build huge collections by piping rows out of the function as they are created, saving memory and allowing subsequent processing to start before all the rows are generated -- <cite>[Oracle Base Blog][1]</cite>
-4. ``ins`` (p) - Inserts a row into the table. Automaticaly updates the audit
+Pipe-lining negates the need to build huge collections by piping rows out of the function as they are created, saving memory and allowing subsequent processing to start before all the rows are generated -- <cite>[Oracle Base Blog][1]</cite>
+4. ``ins`` (p) - Inserts a row into the table. Automatically updates the audit
 columns: created_by, created_date, modified_by, and modified_date.
-5. ``upd`` (p) - Updates a row in the table. Automaticaly updates the audit
+5. ``upd`` (p) - Updates a row in the table. Automatically updates the audit
 columns: modified_by, and modified_date.
 6. ``web_upd`` (p) - Updates a row in the table. Performs an optimistic locking 
-check prior to performing the update. Automaticaly updates the audit
+check prior to performing the update. Automatically updates the audit
 columns: modified_by, and modified_date.
 7. ``del`` (p) - Deletes a row from the table.
 8. ``web_del`` (p) - Deletes a row from the table. Performs an optimistic locking check prior to performing the update.
@@ -163,7 +163,7 @@ PROCEDURE create_tapi_package (p_table_name               IN VARCHAR2
 #### Description:
 Create PL/SQL Table API
 
-#### IN Paramters
+#### IN Parameters
 
 | Name | Type | Description
 |------|------|------------
@@ -185,9 +185,9 @@ Create PL/SQL Table API
 
 ## Contributing
 
-If you have ideas, get in touch directly.
+If you have any ideas, get in touch directly.
 
-Please inser at the bottom of your commit message the following line using your name and e-mail address .
+Please insert at the bottom of your commit message the following line, having in it your name and e-mail address .
 
     Signed-off-by: Your Name <you@example.org>
 
