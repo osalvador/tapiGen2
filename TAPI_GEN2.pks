@@ -43,7 +43,7 @@ AS
                                 , p_created_date_col_name    IN VARCHAR2 DEFAULT NULL
                                 , p_modified_by_col_name     IN VARCHAR2 DEFAULT NULL
                                 , p_modified_date_col_name   IN VARCHAR2 DEFAULT NULL
-                                , p_raise_exceptions         IN BOOLEAN DEFAULT TRUE);
+                                , p_raise_exceptions         IN BOOLEAN DEFAULT FALSE);
 
    --Public functions but for internal use. 
    FUNCTION pk_col_name (p_table_name IN VARCHAR2)
