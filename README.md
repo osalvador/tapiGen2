@@ -1,9 +1,23 @@
 # tapiGen2
 PL/SQL Table API Generator for Oracle
 
-tapiGen2 is the continuation of the Open Source project created by Daniel McGhan in 2008, [tapiGen](http://sourceforge.net/projects/tapigen/). It aims to automate the creation of PLSQL TABLE APIs.
+tapiGen2 aims to automate the creation of PLSQL TABLE APIs.
 
 A table API, is a data access layer that provides the basic CRUD operations for a single table. The key principle, is to avoid repetition of SQL statements and consequently make it easier to optimize, maintain and enhance those statements. For this reason, a data access layer is critical. Some of us build apps that perform DML on individual tables, and so we find TAPIs useful. 
+
+- [Let's start](#letsStart)<br/>    
+- [What's New](#watsNew)<br/>
+- [Getting started](#getStart)<br/>
+    + [Install](#install)<br/>
+    + [Usage](#usage)<br/>
+- [Functions and procedures included](#functions)</br>
+- [Procedure description](#procedureDesc)</br>
+- [Special Thanks](#thanks)<br/>
+- [Contributing](#contributing)<br/>
+- [License](#license)
+
+<a name="letsStart"></a>
+## Let's start
 
 Let's start by taking a look at a single row fetch, using its id - a very common operation. 
 
@@ -33,13 +47,12 @@ maintenance is easier, and if everyone uses this function, performance is
 better. In fact, if you're using Oracle 11g, the function cache will be used 
 for subsequent calls.
 
-
+<a name="watsNew"></a>
 ## What's New in tapiGen2
 
-tapiGen2 has been rewritten to complete, but based on the same philosophy as its predecessor. tapiGen2 uses the template engine [tePLSQL](https://github.com/osalvador/tePLSQL) that simplifies the creation of code and allows it to be easily customizable.
+tapiGen2 uses the template engine [tePLSQL](https://github.com/osalvador/tePLSQL) that simplifies the creation of code and allows it to be easily customizable.
 
-It also adds new features to the generated API, and some of them are modified. 
-I decided to eliminate the management of exceptions raised by Daniel McGhan, because I believe that exception handling is very personal and depends on the architecture chosen for each project 
+It also adds new features to the generated API, and some of them are modified. Now , as an option, the framework [ logger ]( https://github.com/oraopensource/logger ) is used for exception handling
 
 Also it includes:
 
@@ -51,8 +64,10 @@ Also it includes:
   - SHA1 is used instead of MD5 hash, in Oracle 12c we will use SHA256.
   - The `put_apex_form_code` procedure has been removed.
 
+<a name="getStart"></a>
 ## Getting started
 
+<a name="install"></a>
 ### Install
 Download and compile 
 
@@ -63,6 +78,19 @@ Download and compile
 
 Execute on `DBMS_CRYPTO` grant are necessary. 
 
+#### Logger
+If you use logger for exception handling you may also: 
+
+- Download logger  https://github.com/oraopensource/logger
+- And follow the installation instruction https://github.com/OraOpenSource/Logger/blob/master/docs/Installation.md
+
+Logger needs the following grants
+
+    grant connect,create view, create job, create table, create sequence,
+    create trigger, create procedure, create any context to existing_user;
+
+
+<a name="usage"></a>
 ### Usage
 
 #### Basic Example
@@ -85,7 +113,8 @@ exec tapi_gen2.create_tapi_package (p_table_name => 'EMP'
                                   , p_created_by_col_name => 'usr_create'
                                   , p_created_date_col_name => 'date_create'
                                   , p_modified_by_col_name => 'usr_update'
-                                  , p_modified_date_col_name => 'date_update');
+                                  , p_modified_date_col_name => 'date_update'
+                                  , p_raise_exceptions => FALSE);
 ```
 
 Because `p_compile_table_api` is set to `FALSE` tapiGen2 show source via `DBMS_OUTPUT`: 
@@ -102,21 +131,25 @@ IS
    */
 
    --Scalar/Column types
-   SUBTYPE hash_t IS varchar2 (40);
+   SUBTYPE hash_t IS varchar2 (40);   
+   SUBTYPE deptno IS dept.deptno%TYPE;
+   SUBTYPE dname IS dept.dname%TYPE;
+   SUBTYPE loc IS dept.loc%TYPE;   
 
    --Record type
-   TYPE DEPT_rt
+   TYPE dept_rt
    IS
       RECORD (
-        deptno   DEPT.deptno%TYPE,
-    dname   DEPT.dname%TYPE,
-    loc   DEPT.loc%TYPE,
+        deptno   dept.deptno%TYPE,
+        dname   dept.dname%TYPE,
+        loc   dept.loc%TYPE,
         hash               hash_t,
         row_id            VARCHAR2(64)
       );
 .....
 ```
 
+<a name="functions"></a>
 ## Functions and procedures that exist within each package that tapiGen2 creates
 
 Here is a brief list of the various functions and procedures that exist within
@@ -147,6 +180,7 @@ columns: modified_by, and modified_date.
 
 [1]:https://oracle-base.com/articles/misc/pipelined-table-functions#pipelined_table_functions
 
+<a name="procedureDesc"></a>
 ## tapiGen2 procedure description
 ### CREATE_TAPI_PACKAGE
 
@@ -157,7 +191,8 @@ PROCEDURE create_tapi_package (p_table_name               IN VARCHAR2
                                , p_created_by_col_name      IN VARCHAR2 DEFAULT NULL
                                , p_created_date_col_name    IN VARCHAR2 DEFAULT NULL
                                , p_modified_by_col_name     IN VARCHAR2 DEFAULT NULL
-                               , p_modified_date_col_name   IN VARCHAR2 DEFAULT NULL);
+                               , p_modified_date_col_name   IN VARCHAR2 DEFAULT NULL
+                               , p_raise_exceptions         IN BOOLEAN DEFAULT FALSE);
 ```
 
 #### Description:
@@ -174,6 +209,7 @@ Create PL/SQL Table API
 | p_created_date_col_name | VARCHAR2 | Custom audit column
 | p_modified_by_col_name | VARCHAR2 | Custom audit column
 | p_modified_date_col_name | VARCHAR2 | Custom audit column
+| p_raise_exceptions | BOOLEAN | TRUE to use logger for exception handling
 
 
 #### Amendments
@@ -181,8 +217,14 @@ Create PL/SQL Table API
 | When         | Who                      | What
 |--------------|--------------------------|------------------
 |16-JUL-2015   | osalvador                | Created
+|20-JUL-2015   | osalvador                | Added logger exception handling
 
+<a name="thanks"></a>
+## Special thanks
 
+tapiGen2 is the continuation of the Open Source project created by Daniel McGhan in 2008, [tapiGen](http://sourceforge.net/projects/tapigen/).
+
+<a name="contributing"></a>
 ## Contributing
 
 If you have any ideas, get in touch directly.
@@ -195,6 +237,7 @@ This can be automatically added to pull requests by committing with:
 
     git commit --signoff
 
+<a name="license"></a>
 ## License
 
 Copyright 2015 Oscar Salvador Magallanes 
