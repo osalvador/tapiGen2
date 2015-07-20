@@ -21,7 +21,13 @@ IS
    */
 
    --Scalar/Column types
-   SUBTYPE hash_t IS varchar2 (40);
+   SUBTYPE hash_t IS varchar2 (40);   
+   <% DECLARE
+     l_template VARCHAR2(32767);
+   BEGIN
+     l_template := 'SUBTYPE ${column_name} IS ${table_name}.${column_name}%TYPE;';
+     tePLSQL.print(tapi_gen2.tab_columns('${table_name}',l_template, CHR(10) || '   '));
+   END; %>   
 
    --Record type
    TYPE ${table_name}_rt
@@ -486,8 +492,8 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
       SELECT <% DECLARE
                 l_template VARCHAR2(32767);
               BEGIN
-                l_template := ' ${column_name} ';
-                tePLSQL.print(tapi_gen2.tab_columns_sans_blobs('${table_name}',l_template, '||' || CHR(10) || CHR(09) || CHR(09)));
+                l_template := ' ${column_name} ';                
+                tePLSQL.print(tapi_gen2.tab_columns_sans_blobs('${table_name}',l_template, '||' || CHR(10) || '              '));
               END; %>
       INTO l_string
       FROM ${table_name}

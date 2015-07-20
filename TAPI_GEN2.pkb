@@ -214,9 +214,6 @@ AS
       LOOP
          l_cont      := l_cont + 1;
 
-         --El created_by y created date no debe aparecer en la update
-         --El modified by tiene que ser un NVL(,-1) y el modified_date sysdate
-
          IF g_vars ('created_by_col_name') <> c1.column_name AND g_vars ('created_date_col_name') <> c1.column_name
          THEN
             IF l_cont > 1
