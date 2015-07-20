@@ -5,7 +5,7 @@ tapiGen2 aims to automate the creation of PLSQL TABLE APIs.
 
 A table API, is a data access layer that provides the basic CRUD operations for a single table. The key principle, is to avoid repetition of SQL statements and consequently make it easier to optimize, maintain and enhance those statements. For this reason, a data access layer is critical. Some of us build apps that perform DML on individual tables, and so we find TAPIs useful. 
 
-- [Let's start](#letsStart)<br/>    
+- [Let's start](#letsStart)<br/>
 - [What's New](#watsNew)<br/>
 - [Getting started](#getStart)<br/>
     + [Install](#install)<br/>
