@@ -676,7 +676,7 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
                         l_template VARCHAR2(32767);
                       BEGIN
                         l_template := '${column_name} = NVL(p_${table_name}_rec.${column_name},${column_name}) ';
-                        tePLSQL.print(tapi_gen2.tab_columns('${table_name}',l_template, ',' || CHR(10)||'                   ' ));
+                        tePLSQL.print(tapi_gen2.tab_columns_for_upd('${table_name}',l_template, ',' || CHR(10)||'                   ' ));                        
                       END; %>
            WHERE  <% DECLARE
                             l_template VARCHAR2(32767);
@@ -690,7 +690,7 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
                         l_template VARCHAR2(32767);
                       BEGIN
                         l_template := '${column_name} = p_${table_name}_rec.${column_name} ';
-                        tePLSQL.print(tapi_gen2.tab_columns('${table_name}',l_template, ',' || CHR(10)|| '                   ' ));
+                        tePLSQL.print(tapi_gen2.tab_columns_for_upd('${table_name}',l_template, ',' || CHR(10)|| '                   ' ));
                       END; %>            
            WHERE <% DECLARE
                     l_template VARCHAR2(32767);
@@ -719,7 +719,7 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
                         l_template VARCHAR2(32767);
                       BEGIN
                         l_template := '${column_name} = NVL(p_${table_name}_rec.${column_name},${column_name}) ';
-                        tePLSQL.print(tapi_gen2.tab_columns('${table_name}',l_template, ',' || CHR(10)||'                   ' ));
+                        tePLSQL.print(tapi_gen2.tab_columns_for_upd('${table_name}',l_template, ',' || CHR(10)||'                   ' ));
                       END; %>
            WHERE  ROWID = p_${table_name}_rec.row_id;
        ELSE
@@ -728,7 +728,7 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
                         l_template VARCHAR2(32767);
                       BEGIN
                         l_template := '${column_name} = p_${table_name}_rec.${column_name} ';
-                        tePLSQL.print(tapi_gen2.tab_columns('${table_name}',l_template, ',' || CHR(10)|| '                   ' ));
+                        tePLSQL.print(tapi_gen2.tab_columns_for_upd('${table_name}',l_template, ',' || CHR(10)|| '                   ' ));
                       END; %>            
            WHERE  ROWID = p_${table_name}_rec.row_id;
        END IF;
@@ -773,7 +773,7 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
                         l_template VARCHAR2(32767);
                       BEGIN
                         l_template := '${column_name} = NVL(p_${table_name}_rec.${column_name},${column_name}) ';
-                        tePLSQL.print(tapi_gen2.tab_columns('${table_name}',l_template, ',' || CHR(10)||'                   ' ));
+                        tePLSQL.print(tapi_gen2.tab_columns_for_upd('${table_name}',l_template, ',' || CHR(10)||'                   ' ));
                       END; %>                                     
                WHERE CURRENT OF ${table_name}_cur;
             ELSE
@@ -782,7 +782,7 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
                         l_template VARCHAR2(32767);
                       BEGIN
                         l_template := '${column_name} = p_${table_name}_rec.${column_name} ';
-                        tePLSQL.print(tapi_gen2.tab_columns('${table_name}',l_template, ',' || CHR(10)|| '                   ' ));
+                        tePLSQL.print(tapi_gen2.tab_columns_for_upd('${table_name}',l_template, ',' || CHR(10)|| '                   ' ));
                       END; %>   
                WHERE CURRENT OF ${table_name}_cur;
             END IF;
@@ -827,7 +827,7 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
                         l_template VARCHAR2(32767);
                       BEGIN
                         l_template := '${column_name} = NVL(p_${table_name}_rec.${column_name},${column_name}) ';
-                        tePLSQL.print(tapi_gen2.tab_columns('${table_name}',l_template, ',' || CHR(10)||'                          ' ));
+                        tePLSQL.print(tapi_gen2.tab_columns_for_upd('${table_name}',l_template, ',' || CHR(10)||'                          ' ));
                       END; %>                                     
                WHERE CURRENT OF ${table_name}_rowid_cur;
             ELSE
@@ -836,7 +836,7 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
                         l_template VARCHAR2(32767);
                       BEGIN
                         l_template := '${column_name} = p_${table_name}_rec.${column_name} ';
-                        tePLSQL.print(tapi_gen2.tab_columns('${table_name}',l_template, ',' || CHR(10)|| '                      ' ));
+                        tePLSQL.print(tapi_gen2.tab_columns_for_upd('${table_name}',l_template, ',' || CHR(10)|| '                      ' ));
                       END; %>   
                WHERE CURRENT OF ${table_name}_rowid_cur;
             END IF;
@@ -1026,7 +1026,10 @@ END tapi_${table_name};]' ;
       RETURN VARCHAR2;
       
    FUNCTION tab_columns_sans_blobs (p_table_name IN VARCHAR2, p_template IN VARCHAR2, p_delimiter IN VARCHAR2)
-      RETURN VARCHAR2;         
+      RETURN VARCHAR2;
+      
+   FUNCTION tab_columns_for_upd (p_table_name IN VARCHAR2, p_template IN VARCHAR2, p_delimiter IN VARCHAR2)
+      RETURN VARCHAR2;               
     
 END tapi_gen2;
 /
