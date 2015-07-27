@@ -477,7 +477,9 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
       
       l_retval hash_t;
       l_string CLOB;
+      l_date_format varchar2(64);
    BEGIN       
+
       <% IF '${raise_exceptions}' IS NOT NULL
       THEN
           DECLARE
@@ -489,6 +491,11 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
       teplsql.print(CHR(10) || '      logger.LOG(''START'', l_scope, NULL, l_params);
       logger.LOG(''Getting row data into one string'', l_scope);');
       END IF; %>
+            
+      --Get actual NLS_DATE_FORMAT
+      SELECT VALUE INTO l_date_format  FROM v$nls_parameters WHERE parameter ='NLS_DATE_FORMAT';
+      --Alter session for date columns
+      EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_DATE_FORMAT=''YYYY/MM/DD hh24:mi:ss''';
       
       SELECT <% DECLARE
                 l_template VARCHAR2(32767);
@@ -504,6 +511,9 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
                 l_template := ' ${column_name} =  hash.p_${column_name}';
                 tePLSQL.print(tapi_gen2.pk_columns('${table_name}',l_template, ' AND ' || CHR(10) || '            ' ));
               END; %>;
+
+      --Restore NLS_DATE_FORMAT to default
+      EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_DATE_FORMAT=''' || l_date_format|| '''';
               
       <% IF '${raise_exceptions}' IS NOT NULL
       THEN
@@ -536,6 +546,7 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
       END IF; %>   
       l_retval hash_t;
       l_string CLOB;
+      l_date_format varchar2(64);      
    BEGIN
       <% IF '${raise_exceptions}' IS NOT NULL
       THEN
@@ -543,6 +554,11 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
       logger.LOG(''START'', l_scope, NULL, l_params);
       logger.LOG(''Getting row data into one string'', l_scope);');
       END IF; %>
+
+      --Get actual NLS_DATE_FORMAT
+      SELECT VALUE INTO l_date_format  FROM v$nls_parameters WHERE parameter ='NLS_DATE_FORMAT';
+      --Alter session for date columns
+      EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_DATE_FORMAT=''YYYY/MM/DD hh24:mi:ss''';
 
       SELECT <% DECLARE
                 l_template VARCHAR2(32767);
@@ -553,6 +569,9 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
       INTO l_string
       FROM ${table_name}
       WHERE  ROWID = p_rowid;
+
+      --Restore NLS_DATE_FORMAT to default
+      EXECUTE IMMEDIATE 'ALTER SESSION SET NLS_DATE_FORMAT=''' || l_date_format|| '''';
       
       <% IF '${raise_exceptions}' IS NOT NULL
       THEN
