@@ -81,7 +81,7 @@ Run:
     
     sqlplus "user/userpass"@SID @tapigen2_install
 
-Execute on `DBMS_CRYPTO` grant are necessary. 
+Execute on `DBMS_CRYPTO` grant is necessary. 
 
 ### Uninstall
 Download
