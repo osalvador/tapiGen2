@@ -69,12 +69,17 @@ Also it includes:
 
 <a name="install"></a>
 ### Install
-Download and compile 
+Download
 
 - tePLSQL.pks
 - TAPI_GEN2.pks
 - tePLSQL.pkb
 - TAPI_GEN2.pkb
+- tapigen2_install.sql
+
+Run:
+    
+    sqlplus "user/userpass"@SID @tapigen2_install
 
 Execute on `DBMS_CRYPTO` grant are necessary. 
 
