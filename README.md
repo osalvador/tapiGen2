@@ -228,6 +228,7 @@ Create PL/SQL Table API
 |--------------|--------------------------|------------------
 |16-JUL-2015   | osalvador                | Created
 |20-JUL-2015   | osalvador                | Added logger exception handling
+|16-SEP-2015   | osalvador                | The new version of tePLSQL is used. And the template is moved to the tapi_gen2 package spec.
 
 <a name="thanks"></a>
 ## Special thanks
