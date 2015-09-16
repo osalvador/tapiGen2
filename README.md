@@ -83,6 +83,15 @@ Run:
 
 Execute on `DBMS_CRYPTO` grant are necessary. 
 
+### Uninstall
+Download
+
+- tapigen2_uninstall.sql
+
+Run:
+    
+    sqlplus "user/userpass"@SID @tapigen2_uninstall
+
 #### Logger
 If you use logger for exception handling you may also: 
 
