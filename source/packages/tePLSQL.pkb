@@ -533,7 +533,7 @@ AS
                                 , 1);
                 END IF;
 
-                --Añadimos el resto de la fuente a la varbiable resultado
+                --AÃ±adimos el resto de la fuente a la varbiable resultado
                 DBMS_LOB.COPY (l_result
                              , p_template
                              , DBMS_LOB.getlength (p_template)
