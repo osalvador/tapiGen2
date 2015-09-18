@@ -80,11 +80,11 @@ AS
 
       -- Spec --
       --Process template
-      l_spec_tapi := teplsql.process ('TAPI_GEN2', l_vars, 'spec');
+      l_spec_tapi := teplsql.process (l_vars, 'spec', 'TAPI_GEN2');
 
       -- Body --
       --Process template
-      l_body_tapi := teplsql.process ('TAPI_GEN2', l_vars, 'body');
+      l_body_tapi := teplsql.process (l_vars, 'body', 'TAPI_GEN2');
 
       IF p_compile_table_api
       THEN
