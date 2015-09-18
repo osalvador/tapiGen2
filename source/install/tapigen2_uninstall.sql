@@ -15,6 +15,7 @@ Rem    osalvador  16/09/2015 - Created
 
 DROP PACKAGE TAPI_GEN2;
 DROP PACKAGE tePLSQL;
+DROP TABLE TE_TEMPLATES;
 
 quit;
 /

@@ -69,27 +69,19 @@ Also it includes:
 
 <a name="install"></a>
 ### Install
-Download
-
-- tePLSQL.pks
-- TAPI_GEN2.pks
-- tePLSQL.pkb
-- TAPI_GEN2.pkb
-- tapigen2_install.sql
-
-Run:
+Clone the repo and install:
     
+    git clone https://github.com/osalvador/tapiGen2.git
+    cd tapiGen2/source/install
     sqlplus "user/userpass"@SID @tapigen2_install
 
 Execute on `DBMS_CRYPTO` grant is necessary. 
 
 ### Uninstall
-Download
+Clone the repo and uninstall:
 
-- tapigen2_uninstall.sql
-
-Run:
-    
+    git clone https://github.com/osalvador/tapiGen2.git
+    cd tapiGen2/source/install
     sqlplus "user/userpass"@SID @tapigen2_uninstall
 
 #### Logger

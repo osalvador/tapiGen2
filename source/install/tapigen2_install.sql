@@ -32,10 +32,11 @@ END;
 
 whenever sqlerror continue
 
-@@tePLSQL.pks
-@@TAPI_GEN2.pks
-@@tePLSQL.pkb
-@@TAPI_GEN2.pkb
+@@../packages/tePLSQL.pks
+@@../packages/TAPI_GEN2.pks
+@@../tables/TE_TEMPLATES.sql
+@@../packages/tePLSQL.pkb
+@@../packages/TAPI_GEN2.pkb
 
 quit;
 /
