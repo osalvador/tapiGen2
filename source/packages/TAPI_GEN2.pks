@@ -29,7 +29,7 @@ AS
 
    /**
    * Create PL/SQL Table API
-   *   
+   *
    * @param     p_table_name              must be NOT NULL
    * @param     p_compile_table_api       TRUE for compile generated package, FALSE to DBMS_OUTPUT the source
    * @param     p_unique_key              If the table has no primary key, it indicates the column that will be used as a unique key
@@ -129,13 +129,13 @@ IS
    /**
    * This function generates a SHA1 hash for optimistic locking purposes.
    * Access directly to the row by rowid
-   * 
+   *
    * @param  p_rowid  must be NOT NULL
    */
    FUNCTION hash_rowid (p_rowid IN varchar2)
    RETURN varchar2;
 
-   /**   
+   /**
    * This is a table encapsulation function designed to retrieve information from the ${table_name} table.
    *
    <% c := pk.last+1; for i in 1 .. pk.last loop %>
@@ -177,7 +177,7 @@ IS
    <% c := pk.last+1; for i in 1 .. pk.last loop %>
    * @param      p_<%=  pk(i).COLUMN_NAME %>      must be NOT NULL
    <% end loop; %>
-   * @return     ${table_name} Table Record Type   
+   * @return     ${table_name} Table Record Type
    */
    FUNCTION tt (
              <% c := pk.last+1; for i in 1 .. pk.last loop %>
@@ -196,11 +196,11 @@ IS
    PROCEDURE ins (p_${table_name}_rec IN OUT ${table_name}_rt);
 
    /**
-   * This is a table encapsulation function designed to update a row in the ${table_name} table.    
+   * This is a table encapsulation function designed to update a row in the ${table_name} table.
    *
    * @param      p_${table_name}_rec      Record Type
-   * @param      p_ignore_nulls      IF TRUE then null values are ignored in the update    
-   */   
+   * @param      p_ignore_nulls      IF TRUE then null values are ignored in the update
+   */
    PROCEDURE upd (p_${table_name}_rec IN ${table_name}_rt, p_ignore_nulls IN boolean := FALSE);
 
    /**
@@ -208,8 +208,8 @@ IS
    * access directly to the row by rowid
    *
    * @param      p_${table_name}_rec      Record Type
-   * @param      p_ignore_nulls      IF TRUE then null values are ignored in the update    
-   */ 
+   * @param      p_ignore_nulls      IF TRUE then null values are ignored in the update
+   */
    PROCEDURE upd_rowid (p_${table_name}_rec IN ${table_name}_rt, p_ignore_nulls IN boolean := FALSE);
 
    /**
@@ -217,8 +217,8 @@ IS
    * in the ${table_name} table whith optimistic lock validation
    *
    * @param      p_${table_name}_rec      Record Type
-   * @param      p_ignore_nulls      IF TRUE then null values are ignored in the update    
-   */   
+   * @param      p_ignore_nulls      IF TRUE then null values are ignored in the update
+   */
    PROCEDURE web_upd (p_${table_name}_rec IN ${table_name}_rt, p_ignore_nulls IN boolean := FALSE);
 
    /**
@@ -227,8 +227,8 @@ IS
    * access directly to the row by rowid
    *
    * @param      p_${table_name}_rec      Record Type
-   * @param      p_ignore_nulls      IF TRUE then null values are ignored in the update    
-   */  
+   * @param      p_ignore_nulls      IF TRUE then null values are ignored in the update
+   */
    PROCEDURE web_upd_rowid (p_${table_name}_rec IN ${table_name}_rt, p_ignore_nulls IN boolean := FALSE);
 
    /**
@@ -237,7 +237,7 @@ IS
    <% c := pk.last+1; for i in 1 .. pk.last loop %>
    * @param    p_<%=  pk(i).COLUMN_NAME %>        must be NOT NULL
    <% end loop; %>
-   */ 
+   */
    PROCEDURE del (
               <% c := pk.last+1; for i in 1 .. pk.last loop %>
                   p_<%=pk(i).COLUMN_NAME%> IN ${table_name}.<%=pk(i).COLUMN_NAME %>%TYPE<%sep(c-i,',');%>\\n
@@ -245,11 +245,11 @@ IS
                 );
 
    /**
-   * This is a table encapsulation function designed to delete a row from the ${table_name} table 
+   * This is a table encapsulation function designed to delete a row from the ${table_name} table
    * access directly to the row by rowid
    *
    * @param      p_rowid      must be NOT NULL
-   */   
+   */
     PROCEDURE del_rowid (p_rowid IN VARCHAR2);
 
    /**
@@ -271,9 +271,9 @@ IS
    /**
    * This is a table encapsulation function designed to delete a row from the ${table_name} table
    * whith optimistic lock validation, access directly to the row by rowid
-   *   
-   * @param      p_rowid      must be NOT NULL   
-   * @param      p_hash       must be NOT NULL   
+   *
+   * @param      p_rowid      must be NOT NULL
+   * @param      p_hash       must be NOT NULL
    */
     PROCEDURE web_del_rowid (p_rowid IN varchar2, p_hash IN varchar2);
 
@@ -708,7 +708,17 @@ CREATE OR REPLACE PACKAGE BODY tapi_${table_name} IS
         <% end loop; %>
 
        INSERT INTO ${table_name}
-         VALUES   l_rowtype;
+          VALUES   l_rowtype
+       RETURNING   
+                   <%  c := col.last+1; for i in 1 .. col.last loop %>         
+                   <%=col(i).column_name%> <%sep(c-i,',');%>\\n         
+                   <% end loop; %>  
+            INTO   l_rowtype;
+        
+        <% for i in 1 .. col.last loop %>
+         ins.p_${table_name}_rec.<%=col(i).column_name%> := l_rowtype.<%=col(i).column_name%>;
+        <% end loop; %>
+        
 
       <% if '${raise_exceptions}' is not null then %>
        logger.LOG('END', l_scope);
