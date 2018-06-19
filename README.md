@@ -1,7 +1,7 @@
 # tapiGen2
 PL/SQL Table API Generator for Oracle
 
-tapiGen2 aims to automate the creation of PLSQL TABLE APIs.
+tapiGen2 aims to automate the creation of PLSQL TABLE APIs. [You can use the online version](https://apex.oracle.com/pls/apex/f?p=48301:3:1326289165255::NO:3::)
 
 A table API, is a data access layer that provides the basic CRUD operations for a single table. The key principle, is to avoid repetition of SQL statements and consequently make it easier to optimize, maintain and enhance those statements. For this reason, a data access layer is critical. Some of us build apps that perform DML on individual tables, and so we find TAPIs useful. 
 
