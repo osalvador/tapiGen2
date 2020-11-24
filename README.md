@@ -3,7 +3,7 @@ PL/SQL Table API Generator for Oracle
 
 tapiGen2 aims to automate the creation of PLSQL TABLE APIs. [You can use the online version](https://apex.oracle.com/pls/apex/f?p=48301:3:1326289165255::NO:3::)
 
-A table API, is a data access layer that provides the basic CRUD operations for a single table. The key principle, is to avoid repetition of SQL statements and consequently make it easier to optimize, maintain and enhance those statements. For this reason, a data access layer is critical. Some of us build apps that perform DML on individual tables, and so we find TAPIs useful. 
+A table API is a data access layer that provides the basic CRUD operations for a single table. The key principle is to avoid repetition of SQL statements and consequently make it easier to optimize, maintain, and enhance those statements. For this reason, a data access layer is critical. Some of us build apps that perform DML on individual tables, and so we find TAPIs useful.
 
 - [Let's start](#letsStart)<br/>
 - [What's New](#watsNew)<br/>
@@ -29,14 +29,13 @@ FROM table_name
 WHERE id = l_var_with_id;
 ```
 
-Although its easy enough to write, there are few problems with this approach. 
+Although it's easy enough to write, there are few problems with this approach.
 
 1. This implicit cursor introduces a possible NO_DATA_FOUND exception that should be handled - that means more code. Explicit cursors would also require more code.
 2. Each statement written like this, must be maintained, hence, if the table name is changed then all the statements must be updated.
-3. If any of the statements written for this purpose, are not written exactly in the same way, Oracle may take a little longer to execute them.
+3. If any of the statements written for this purpose are not written exactly in the same way, Oracle may take a little longer to execute them.
          
-The RT function in tapiGen was created for this very purpose and is used as 
-follows:
+The RT function in tapiGen was created for this very purpose and is used as follows:
    
     l_table_rec := table_name_te.rt(l_var_with_id);
 
@@ -44,20 +43,19 @@ follows:
 That's it, one line! Granted there are many more lines behind the scenes, but
 you did not have to write them nor must you maintain them. Errors are handled,
 maintenance is easier, and if everyone uses this function, performance is
-better. In fact, if you're using Oracle 11g, the function cache will be used 
-for subsequent calls.
+better. If you're using Oracle 11g, the function cache will be used for subsequent calls.
 
 <a name="watsNew"></a>
 ## What's New in tapiGen2
 
 tapiGen2 uses the template engine [tePLSQL](https://github.com/osalvador/tePLSQL) that simplifies the creation of code and allows it to be easily customizable.
 
-It also adds new features to the generated API, and some of them are modified. Now , as an option, the framework [ logger ]( https://github.com/oraopensource/logger ) is used for exception handling
+It also adds new features to the generated API, and some of them are modified. Now, as an option, the framework [ logger ]( https://github.com/oraopensource/logger ) is used for exception handling
 
-Also it includes:
+Also, it includes:
 
   - Single column primary key restriction has been deleted. Now the primary key can contain from 0 to N columns. If the table has no primary key, parameter `unique_key` must be not null.   
-  - The `tt` PIPELINED function has been implemented. This, returns an array of records and standardizes access to the tables, without losing the ability to make queries directly.
+  - The `tt` PIPELINED function has been implemented. This returns an array of records and standardizes access to the tables, without losing the ability to make queries directly.
   - DML operations, based on the rowid, have been created to facilitate their use by API clients. `upd_rowid`, `web_upd_rowid`, `del_rowid` and `web_del_rowid` 
   - Audit columns will be injected as parameters and won't be mandatory.
   - Tables won't require a sequence restriction. In case that the used table has one, the code will have to be modified to add the `nextval()` statement. Under construction. 
